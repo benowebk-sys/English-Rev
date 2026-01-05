@@ -91,7 +91,7 @@
             font-weight: 700;
             letter-spacing: -1px;
             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            /* display: none; Removed this line to show the header */
+            display: none; /* Hidden as requested */
         }
 
         main {
@@ -355,7 +355,7 @@
 
         /* Footer */
         .footer {
-            padding: 3rem 1rem;
+            padding: 2rem 1rem; /* Slightly reduced padding */
             text-align: center;
             margin-top: auto;
             position: relative;
@@ -377,6 +377,7 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             letter-spacing: 0.5px;
+            white-space: nowrap; /* Prevent wrapping inside badge */
         }
         
         .creator-badge:hover {
@@ -407,14 +408,22 @@
             .control-group-left, .control-group-right { width: 100%; justify-content: space-between; margin: 0; }
             .nav-btn { flex: 1; justify-content: center; }
             .btn-hint { width: 100%; justify-content: center; }
-            .creator-badge { font-size: 0.75rem; padding: 0.8rem 1.2rem; }
+            
+            /* Creator Badge Mobile Fix */
+            .creator-badge { 
+                font-size: 0.75rem; /* Smaller font on mobile */
+                padding: 0.6rem 1rem; /* Adjust padding */
+                width: auto; /* Allow auto width */
+                max-width: 100%; /* Ensure it doesn't overflow */
+                white-space: normal; /* Allow wrapping if absolutely necessary on very small screens, though font size reduction should prevent it */
+            }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>English Review</h1>
+        <h1>English Quiz</h1>
     </header>
 
     <main>
@@ -557,8 +566,14 @@
                 hintEn: "Past Simple question.",
                 hintAr: "سؤال ماضي بسيط."
             },
-            // REMOVED DUPLICATE: "My brothers usually..." (Already added above)
-            // REMOVED DUPLICATE: "your lessons this week?" (Already added above)
+            {
+                question: "............ your lessons this week?",
+                translation: "هل ... دروسك هذا الأسبوع؟",
+                options: ["Are you studying", "Do you study", "Did you study"],
+                correct: 0,
+                hintEn: "Temporary action 'this week'.",
+                hintAr: "فعل مؤقت 'هذا الأسبوع' (مضارع مستمر)."
+            },
             {
                 question: "Helen ......... a meeting next week at 10 am.",
                 translation: "هيلين ... اجتماعاً الأسبوع المقبل الساعة 10 صباحاً.",
