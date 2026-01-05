@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Quiz - Programmer Bilal Mohammed</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Outfit:wght@300;400;600&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* PROFESSIONAL DARK BACKGROUND */
+            --bg-gradient: linear-gradient(135deg, #050505 0%, #1a1a1a 100%);
+            
+            /* Card Style - Blue Glow Frame */
+            --card-bg: rgba(0, 0, 0, 0.6);
+            --card-border: 1px solid #38bdf8;
+            --card-glow: 0 0 25px rgba(56, 189, 248, 0.15);
+            
+            --text-main: #ffffff;
+            --text-secondary: #a3a3a3;
+            
+            /* Accent Colors */
+            --accent: #38bdf8; 
+            --accent-gradient: linear-gradient(90deg, #38bdf8, #2563eb);
+            
+            --correct: #10b981;
+            --correct-bg: rgba(16, 185, 129, 0.15);
+            --wrong: #ef4444;
+            --wrong-bg: rgba(239, 68, 68, 0.15);
+            
+            --code-font: 'Fira Code', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        .ar {
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+        }
+
+        /* Background Animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -30%;
+            left: 20%;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.03), transparent 60%);
+            z-index: -1;
+            filter: blur(100px);
+            animation: pulse 10s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        header {
+            padding: 2.5rem 1rem;
+            text-align: center;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0;
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            /* display: none; Removed this line to show the header */
+        }
+
+        main {
+            flex: 1;
+            max-width: 850px;
+            margin: 2rem auto;
+            padding: 1rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            width: 100%;
+            background-color: #0f0f0f;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            height: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+        }
+
+        /* Quiz Card */
+        .quiz-card {
+            background: var(--card-bg);
+            border: var(--card-border);
+            box-shadow: var(--card-glow);
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 100%;
+            animation: fadeIn 0.4s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .question-number {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .question-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #fff;
+            line-height: 1.5;
+        }
+
+        .question-translation {
+            font-family: 'Cairo', sans-serif;
+            color: #94a3b8;
+            font-size: 1.15rem;
+            margin-bottom: 2.5rem;
+            direction: rtl;
+            text-align: right;
+            border-right: 3px solid var(--accent);
+            padding-right: 15px;
+            background: rgba(255,255,255,0.03);
+            padding: 1rem;
+            border-radius: 6px;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .option-btn {
+            background-color: #27272a;
+            border: 1px solid #3f3f46;
+            color: #e2e8f0;
+            padding: 1.1rem 1.4rem;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+            font-size: 1.05rem;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #3f3f46;
+            border-color: #52525b;
+            transform: translateX(4px);
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+            opacity: 1;
+        }
+
+        .option-btn.correct {
+            border-color: var(--correct);
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+        }
+
+        .option-btn.wrong {
+            border-color: var(--wrong);
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+        }
+
+        /* Controls */
+        .quiz-controls {
+            margin-top: 3rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(56, 189, 248, 0.3);
+            padding-top: 2rem;
+        }
+
+        .control-group-left {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .control-group-right { margin-left: auto; }
+
+        .nav-btn {
+            padding: 0.8rem 1.6rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.2s;
+            border: none;
+            outline: none;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-back {
+            background: transparent;
+            border: 1px solid #52525b;
+            color: #a1a1aa;
+        }
+        .btn-back:hover:not(:disabled) {
+            border-color: #e4e4e7;
+            color: #e4e4e7;
+        }
+        .btn-back:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .btn-skip {
+            background: #27272a;
+            color: #e4e4e7;
+            border: 1px solid #3f3f46;
+        }
+        .btn-skip:hover { background: #3f3f46; }
+
+        .btn-next {
+            background: #fff;
+            color: #000;
+            border: 1px solid #fff;
+        }
+        .btn-next:hover { background: #e4e4e7; transform: translateY(-1px); }
+
+        .btn-hint {
+            background: transparent;
+            color: #fbbf24;
+            border: 1px solid #fbbf24;
+            padding: 0.8rem;
+        }
+        .btn-hint:hover { background: rgba(251, 191, 36, 0.1); }
+
+        /* Hint Box */
+        .hint-box {
+            margin-top: 1.5rem;
+            background-color: #000;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            border: 1px solid #333;
+            border-left: 4px solid #fbbf24;
+            display: none;
+            animation: fadeIn 0.3s ease;
+            color: #fbbf24;
+        }
+        .hint-box.visible { display: block; }
+        .hint-box strong { color: #fff; margin-right: 5px; text-transform: uppercase; font-size: 0.8rem; }
+        .hint-text-ar { color: #fbbf24; margin-top: 0.8rem; font-weight: 600; }
+
+        /* Score Board */
+        .score-board {
+            text-align: center;
+            display: none;
+            width: 100%;
+            background: var(--card-bg);
+            border: var(--card-border);
+            box-shadow: var(--card-glow);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            animation: slideUp 0.4s ease;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem auto;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            background: rgba(0,0,0,0.3);
+            position: relative;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        }
+        .score-percentage { position: absolute; font-size: 1rem; bottom: 30px; color: #71717a; }
+
+        .restart-btn {
+            background: transparent;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 0.9rem 2.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .restart-btn:hover { background: #fff; color: #000; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 0; transform: translateY(0); } }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 1rem;
+            text-align: center;
+            margin-top: auto;
+            position: relative;
+        }
+
+        .creator-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid var(--accent);
+            font-family: var(--code-font);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+        
+        .creator-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+            background: rgba(56, 189, 248, 0.1);
+            border-color: #fff;
+        }
+
+        .code-symbol {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .code-name {
+            background: linear-gradient(90deg, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 600px) {
+            .quiz-card { padding: 1.5rem; }
+            .question-text { font-size: 1.1rem; }
+            .quiz-controls { flex-direction: column; gap: 1rem; align-items: stretch; }
+            .control-group-left, .control-group-right { width: 100%; justify-content: space-between; margin: 0; }
+            .nav-btn { flex: 1; justify-content: center; }
+            .btn-hint { width: 100%; justify-content: center; }
+            .creator-badge { font-size: 0.75rem; padding: 0.8rem 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>English Review</h1>
+    </header>
+
+    <main>
+        <div class="progress-bar-container">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+
+        <div id="quiz-container" style="width: 100%;">
+            <!-- Question card injected here -->
+        </div>
+
+        <div id="score-container" class="score-board">
+            <h2>Review Completed</h2>
+            
+            <div class="score-circle">
+                <span id="final-percentage">0%</span>
+            </div>
+            
+            <p id="score-text" style="font-size: 1.4rem; margin-bottom: 0.5rem; font-weight: 600; color: #fff;"></p>
+            <p id="correct-count" class="ar" style="font-size: 1.1rem; color: var(--text-secondary);"></p>
+            
+            <button class="restart-btn" onclick="restartQuiz()">
+                <i class="fas fa-redo"></i> Restart Review / إعادة
+            </button>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="creator-badge">
+            <span class="code-symbol">&lt; / &gt;</span>
+            <span>Created by <span class="code-name">Programmer Bilal Mohammed</span></span>
+        </div>
+    </footer>
+
+    <script>
+        // TOTAL: 96 Questions (29 from Revision.pdf + 67 from Question Bank.pdf)
+        const quizData = [
+            // --- Revision.pdf (29 Questions) ---
+            {
+                question: "This restaurant is very noisy. Can we go somewhere .........?",
+                translation: "هذا المطعم صاخب جداً. هل يمكننا الذهاب إلى مكان ...؟",
+                options: ["quiet", "quietest", "quieter"],
+                correct: 2,
+                hintEn: "Comparative form needed.",
+                hintAr: "صيغة مقارنة."
+            },
+            {
+                question: "My dad never lets anything stop him. He is",
+                translation: "والدي لا يدع أي شيء يوقفه أبداً. هو ...",
+                options: ["determined", "intelligent", "ambitious"],
+                correct: 0,
+                hintEn: "Strong-willed.",
+                hintAr: "عازم/مصمم."
+            },
+            {
+                question: "Free-diving is ........than you think.",
+                translation: "الغوص الحر هو ... مما تعتقد.",
+                options: ["dangerous", "more dangerous", "danger"],
+                correct: 1,
+                hintEn: "Long adjective comparison.",
+                hintAr: "مقارنة صفة طويلة."
+            },
+            {
+                question: "She has no ......... after working hard all year.",
+                translation: "ليس لديها ... بعد العمل بجد طوال العام.",
+                options: ["energetic", "energy", "mental"],
+                correct: 1,
+                hintEn: "Noun needed.",
+                hintAr: "نحتاج اسم."
+            },
+            {
+                question: "She gives her money to others, she is",
+                translation: "هي تعطي مالها للآخرين، هي ...",
+                options: ["intelligent", "generous", "stingy"],
+                correct: 1,
+                hintEn: "Sharing freely.",
+                hintAr: "كريم/سخي."
+            },
+            {
+                question: "My brothers usually .... in their sleep.",
+                translation: "إخوتي عادة ... أثناء نومهم.",
+                options: ["talks", "talked", "had talked", "talk"],
+                correct: 3,
+                hintEn: "Plural subject + Present Simple.",
+                hintAr: "فاعل جمع + مضارع بسيط."
+            },
+            {
+                question: "............ your lessons this week?",
+                translation: "هل ... دروسك هذا الأسبوع؟",
+                options: ["Are you studying", "Do you study", "Did you study", "Have you studied"],
+                correct: 0,
+                hintEn: "Temporary action 'this week'.",
+                hintAr: "فعل مؤقت 'هذا الأسبوع' (مضارع مستمر)."
+            },
+            {
+                question: "He is ............ Than his friend.",
+                translation: "هو ... من صديقه.",
+                options: ["tall", "taller", "tallest", "more tall"],
+                correct: 1,
+                hintEn: "Short adjective comparison.",
+                hintAr: "مقارنة صفة قصيرة."
+            },
+            {
+                question: "She is the ............ person I have ever seen.",
+                translation: "هي ... شخص رأيته في حياتي.",
+                options: ["friendly", "friendlier", "friendliest", "most friendly"],
+                correct: 2,
+                hintEn: "Superlative (y -> iest).",
+                hintAr: "تفضيل."
+            },
+            {
+                question: "They ............ their homework now.",
+                translation: "هم ... واجبهم الآن.",
+                options: ["are doing", "do", "did", "doing"],
+                correct: 0,
+                hintEn: "'Now' indicates continuous action.",
+                hintAr: "'الآن' تشير للمستمر."
+            },
+            {
+                question: "What type of music ............ you like?",
+                translation: "ما نوع الموسيقى الذي ... تفضله؟",
+                options: ["does", "do", "are"],
+                correct: 1,
+                hintEn: "Question auxiliary for 'you'.",
+                hintAr: "فعل مساعد للسؤال مع 'you'."
+            },
+            {
+                question: "My best friend ............ an English course this year.",
+                translation: "صديقي المفضل ... دورة إنجليزية هذا العام.",
+                options: ["takes", "is taking", "taken"],
+                correct: 1,
+                hintEn: "Temporary action 'this year'.",
+                hintAr: "حدث مؤقت 'هذا العام'."
+            },
+            {
+                question: "............ Sally come last year?",
+                translation: "هل ... سالي أتت العام الماضي؟",
+                options: ["Did", "Does", "Do"],
+                correct: 0,
+                hintEn: "Past Simple question.",
+                hintAr: "سؤال ماضي بسيط."
+            },
+            // REMOVED DUPLICATE: "My brothers usually..." (Already added above)
+            // REMOVED DUPLICATE: "your lessons this week?" (Already added above)
+            {
+                question: "Helen ......... a meeting next week at 10 am.",
+                translation: "هيلين ... اجتماعاً الأسبوع المقبل الساعة 10 صباحاً.",
+                options: ["has", "having", "is having", "is"],
+                correct: 2,
+                hintEn: "Future arrangement.",
+                hintAr: "ترتيب مستقبلي."
+            },
+            {
+                question: "The room is dirty. I'm ......... it later.",
+                translation: "الغرفة قذرة. أنا ... تنظيفها لاحقاً.",
+                options: ["going to clean", "cleaning", "going to cleaning", "will clean"],
+                correct: 0,
+                hintEn: "Intention (going to).",
+                hintAr: "نية."
+            },
+            {
+                question: "I always ......... a snack between breakfast and lunch.",
+                translation: "أنا دائماً ... وجبة خفيفة بين الإفطار والغداء.",
+                options: ["has", "have", "took", "tasted"],
+                correct: 1,
+                hintEn: "Habitual action (I have).",
+                hintAr: "عادة."
+            },
+            {
+                question: "Do you ......... chocolate milk?",
+                translation: "هل ... حليب الشوكولاتة؟",
+                options: ["like", "likes", "be like", "liked"],
+                correct: 0,
+                hintEn: "Base verb after 'Do'.",
+                hintAr: "مصدر بعد 'Do'."
+            },
+            {
+                question: "I'm into most kinds of art, so I ......... which gallery we go to.",
+                translation: "أحب معظم أنواع الفن، لذلك أنا ... أي معرض نذهب إليه.",
+                options: ["really like", "don't like", "don't mind", "hate"],
+                correct: 2,
+                hintEn: "It doesn't matter to me.",
+                hintAr: "لا مانع لدي."
+            },
+            {
+                question: "Heba is ......... than her sister.",
+                translation: "هبة ... من أختها.",
+                options: ["more young", "younger", "the youngest", "as young"],
+                correct: 1,
+                hintEn: "Comparative.",
+                hintAr: "مقارنة."
+            },
+            {
+                question: "This is ......... day of the year so far.",
+                translation: "هذا هو ... يوم في السنة حتى الآن.",
+                options: ["wetter", "wettest", "the wettest", "more wet"],
+                correct: 2,
+                hintEn: "Superlative.",
+                hintAr: "تفضيل."
+            },
+            {
+                question: "People sometimes don't ......... what they say they will do.",
+                translation: "الناس أحياناً لا ... ما يقولون أنهم سيفعلونه.",
+                options: ["doing", "does", "do", "did"],
+                correct: 2,
+                hintEn: "Base verb after don't.",
+                hintAr: "مصدر بعد don't."
+            },
+            {
+                question: "I talk ......... the phone every day.",
+                translation: "أتحدث ... الهاتف كل يوم.",
+                options: ["on", "in", "after", "at"],
+                correct: 0,
+                hintEn: "Preposition: On the phone.",
+                hintAr: "على الهاتف."
+            },
+            {
+                question: "A student who understands things easily is",
+                translation: "الطالب الذي يفهم الأشياء بسهولة هو ...",
+                options: ["ambitious", "intelligent", "determined", "energetic"],
+                correct: 1,
+                hintEn: "Smart.",
+                hintAr: "ذكي."
+            },
+            {
+                question: "It ......... a beautiful day today.",
+                translation: "إنه ... يوم جميل اليوم.",
+                options: ["is", "are", "were", "Am"],
+                correct: 0,
+                hintEn: "It is.",
+                hintAr: "إنه."
+            },
+            {
+                question: "Robert ......... not go to my school.",
+                translation: "روبرت ... لا يذهب إلى مدرستي.",
+                options: ["is", "does", "are", "are"],
+                correct: 1,
+                hintEn: "Does not.",
+                hintAr: "نفي المضارع."
+            },
+            {
+                question: "My parents ......... in a two-bedroom apartment.",
+                translation: "والداي ... في شقة من غرفتين.",
+                options: ["live", "lives", "is live", "are live"],
+                correct: 0,
+                hintEn: "Plural subject -> Base verb.",
+                hintAr: "جمع -> مصدر."
+            },
+            {
+                question: "We ............ European.",
+                translation: "نحن ... أوروبيون.",
+                options: ["do be", "are", "do are", "is"],
+                correct: 1,
+                hintEn: "We are.",
+                hintAr: "نحن نكون."
+            },
+            {
+                question: "You ......... so happy today!",
+                translation: "أنت ... سعيداً جداً اليوم!",
+                options: ["looks", "seem", "Be", "is"],
+                correct: 1,
+                hintEn: "You seem.",
+                hintAr: "تبدو."
+            },
+
+            // --- Question Bank.pdf (67 Questions) - Corrected Answers ---
+            {
+                question: "How often ......... you play sports?",
+                translation: "كم مرة ... تمارس الرياضة؟",
+                options: ["do", "does", "are", "is"],
+                correct: 0, // (A) do
+                hintEn: "Question in Present Simple with 'you'.",
+                hintAr: "سؤال في المضارع البسيط مع 'you'."
+            },
+            {
+                question: "Andy ......... his uncle every day.",
+                translation: "آندي ... عمه كل يوم.",
+                options: ["calls", "called", "calling"],
+                correct: 0, // 2: (A) calls
+                hintEn: "Every day -> Present Simple.",
+                hintAr: "كل يوم -> مضارع بسيط."
+            },
+            {
+                question: "Monica ......... in a hospital",
+                translation: "مونيكا ... في مستشفى.",
+                options: ["works", "work", "working", "not working"],
+                correct: 0, // 3: (A) works
+                hintEn: "Fact/Job -> Present Simple.",
+                hintAr: "حقيقة/وظيفة -> مضارع بسيط."
+            },
+            {
+                question: "This product ......... by Japanese workers in 1990",
+                translation: "هذا المنتج ... بواسطة عمال يابانيين في عام 1990.",
+                options: ["made", "makes", "was made", "has made"],
+                correct: 2, // 4: (C) was made
+                hintEn: "Passive voice (Past).",
+                hintAr: "مبني للمجهول في الماضي."
+            },
+            {
+                question: "Bill and Carol ......... a magazine yesterday.",
+                translation: "بيل وكارول ... مجلة أمس.",
+                options: ["reads", "read", "reading"],
+                correct: 1, // 5: (B) read
+                hintEn: "Past tense of read.",
+                hintAr: "الماضي من الفعل يقرأ."
+            },
+            {
+                question: "He is the person ......... stole my wallet",
+                translation: "هو الشخص ... سرق محفظتي",
+                options: ["which", "who", "where", "when"],
+                correct: 1, // 6: b) who
+                hintEn: "Relative pronoun for people.",
+                hintAr: "ضمير وصل للأشخاص."
+            },
+            {
+                question: "My friend and I like the same food. We ......... a lot in common.",
+                translation: "صديقي وأنا نحب نفس الطعام. نحن ... الكثير من القواسم المشتركة.",
+                options: ["Keep", "have", "get"],
+                correct: 1, // 7: b) have
+                hintEn: "Expression: 'have in common'.",
+                hintAr: "تعبير: 'لدينا قواسم مشتركة'."
+            },
+            {
+                question: "The boys ......... on the door now.",
+                translation: "الأولاد ... على الباب الآن.",
+                options: ["knock", "knocked", "are knocking"],
+                correct: 2, // 8: (C) are knocking
+                hintEn: "Now -> Present Continuous.",
+                hintAr: "الآن -> مضارع مستمر."
+            },
+            {
+                question: "They ......... us often.",
+                translation: "هم ... غالباً.",
+                options: ["visit", "visits", "visited"],
+                correct: 0, // 9: (A) visit
+                hintEn: "Often -> Present Simple.",
+                hintAr: "غالباً -> مضارع بسيط."
+            },
+            {
+                question: "You ......... basketball once a week.",
+                translation: "أنت ... كرة السلة مرة في الأسبوع.",
+                options: ["played", "Play", "plays"],
+                correct: 1, // 10: (B) Play
+                hintEn: "Routine -> Present Simple.",
+                hintAr: "روتين -> مضارع بسيط."
+            },
+            {
+                question: "Tom ......... every day.",
+                translation: "توم ... كل يوم.",
+                options: ["work", "works", "worked"],
+                correct: 1, // 11: (B) works
+                hintEn: "Singular subject routine.",
+                hintAr: "فاعل مفرد روتيني."
+            },
+            {
+                question: "He always ......... us funny stories.",
+                translation: "هو دائماً ... لنا قصص مضحكة.",
+                options: ["tell", "tells", "told"],
+                correct: 1, // 12: (B) tells
+                hintEn: "Always + He -> Verb+s.",
+                hintAr: "دائماً + هو -> الفعل + s."
+            },
+            {
+                question: "When you like to stay at home all day watching TV, you are a",
+                translation: "عندما تحب البقاء في المنزل طوال اليوم تشاهد التلفاز، فأنت ...",
+                options: ["culture vulture", "couch potato", "party animal", "book worm"],
+                correct: 1, // 13: (B) couch potato
+                hintEn: "Idiom for lazy TV watcher.",
+                hintAr: "مصطلح للشخص الكسول أمام التلفاز."
+            },
+            {
+                question: "She ......... in New York.",
+                translation: "هي ... في نيويورك.",
+                options: ["doesn't live", "don't live", "isn't live"],
+                correct: 0, // 14: A. doesn't live
+                hintEn: "Negative Present Simple (She).",
+                hintAr: "نفي المضارع البسيط (هي)."
+            },
+            {
+                question: "He usually ......... his image.",
+                translation: "هو عادة ... صورته.",
+                options: ["changed", "changes", "changing"],
+                correct: 1, // 15: B. changes
+                hintEn: "Usually -> Present Simple.",
+                hintAr: "عادة -> مضارع بسيط."
+            },
+            {
+                question: "I ......... my homework now.",
+                translation: "أنا ... واجبي الآن.",
+                options: ["am doing", "does", "do"],
+                correct: 0, // 16: (A) am doing
+                hintEn: "Now -> Present Continuous.",
+                hintAr: "الآن -> مضارع مستمر."
+            },
+            {
+                question: "He ......... to his friend every Monday.",
+                translation: "هو ... إلى صديقه كل اثنين.",
+                options: ["talk", "talks", "talked"],
+                correct: 1, // 17: (B) talks
+                hintEn: "Weekly routine.",
+                hintAr: "روتين أسبوعي."
+            },
+            {
+                question: "He sometimes sleeps ......... Every weekend.",
+                translation: "هو أحياناً ينام ... كل عطلة نهاية أسبوع.",
+                options: ["on", "at", "in"],
+                correct: 1, // 18: B. at
+                hintEn: "At the weekend.",
+                hintAr: "في العطلة."
+            },
+            {
+                question: "He likes to use ......... to stay in contact with her friends.",
+                translation: "يحب استخدام ... للبقاء على اتصال مع الأصدقاء.",
+                options: ["books", "TV", "social networking sites"],
+                correct: 2, // 19: c) social networking sites
+                hintEn: "Facebook, Twitter, etc.",
+                hintAr: "مواقع التواصل الاجتماعي."
+            },
+            {
+                question: "I'd like to download ......... than hardcopy books",
+                translation: "أود تحميل ... بدلاً من الكتب الورقية.",
+                options: ["digital e-books", "social networking sites", "sense of humor"],
+                correct: 0, // 20: a) digital e-books
+                hintEn: "Electronic books.",
+                hintAr: "الكتب الإلكترونية."
+            },
+            {
+                question: "I once ......... a wrong turn in Boston and got really lost",
+                translation: "ذات مرة ... منعطف خاطئ في بوسطن وضعت.",
+                options: ["get", "saved", "took"],
+                correct: 2, // 21: c) took
+                hintEn: "Collocation: 'take a turn'.",
+                hintAr: "تعبير: 'أخذ منعطف'."
+            },
+            {
+                question: "She is good ......... speaking Spanish.",
+                translation: "هي جيدة ... تحدث الإسبانية.",
+                options: ["for", "at", "in"],
+                correct: 1, // 22: b) at
+                hintEn: "Good at.",
+                hintAr: "جيد في."
+            },
+            {
+                question: "Alex has worked in the bank ......... ages.",
+                translation: "أليكس عمل في البنك ... زمن طويل.",
+                options: ["for", "since", "ago"],
+                correct: 0, // 23: a) for
+                hintEn: "For ages.",
+                hintAr: "لمدة طويلة."
+            },
+            {
+                question: "She never ......... me with that!",
+                translation: "هي أبداً لا ... معي في ذلك!",
+                options: ["helps", "helped", "help"],
+                correct: 0, // 24: (A) helps
+                hintEn: "She helps.",
+                hintAr: "هي تساعد."
+            },
+            {
+                question: "Martha and Kevin ......... last week.",
+                translation: "مارثا وكيفن ... الأسبوع الماضي.",
+                options: ["swims", "swam", "swim"],
+                correct: 1, // 25: (B) swam
+                hintEn: "Past of swim.",
+                hintAr: "الماضي من swim."
+            },
+            {
+                question: "In this club people usually ......... a lot.",
+                translation: "في هذا النادي الناس عادة ... كثيراً.",
+                options: ["danced", "dances", "dance"],
+                correct: 2, // 26: (C) dance
+                hintEn: "People dance.",
+                hintAr: "الناس يرقصون."
+            },
+            {
+                question: "Linda ......... of her sister every day.",
+                translation: "ليندا ... بأختها كل يوم.",
+                options: ["takes care", "took care", "take care"],
+                correct: 0, // 27: (A) takes care
+                hintEn: "Phrasal verb 'takes care'.",
+                hintAr: "تعتني."
+            },
+            {
+                question: "John rarely ......... the country yesterday.",
+                translation: "جون نادراً ... البلاد أمس.",
+                options: ["left", "leaves", "leave"],
+                correct: 0, // 28: (A) left
+                hintEn: "Yesterday -> Past.",
+                hintAr: "أمس -> ماضي."
+            },
+            {
+                question: "Everyone has the ......... To learn a new language.",
+                translation: "الجميع لديه ... لتعلم لغة جديدة.",
+                options: ["intelligent", "intelligence", "energetic"],
+                correct: 1, // 29: B. intelligence
+                hintEn: "Noun needed.",
+                hintAr: "اسم (ذكاء/قدرة)."
+            },
+            {
+                question: "He doesn't eat meat or fish. He is a",
+                translation: "لا يأكل اللحم أو السمك. هو ...",
+                options: ["celebrity chef", "diet", "vegetarian", "intelligent"],
+                correct: 2, // 30: (C) vegetarian
+                hintEn: "Person who avoids meat.",
+                hintAr: "نباتي."
+            },
+            {
+                question: "A lot of us have to ......... with difficult situations.",
+                translation: "الكثير منا يجب أن ... مع المواقف الصعبة.",
+                options: ["take", "do", "cope", "look"],
+                correct: 2, // 31: (C) cope
+                hintEn: "Cope with.",
+                hintAr: "يتأقلم مع."
+            },
+            {
+                question: "......... Hany visit his family last weekend?",
+                translation: "هل ... هاني زار عائلته عطلة نهاية الأسبوع الماضي؟",
+                options: ["Are", "Did", "Does", "Have"],
+                correct: 1, // 32: (B) Did
+                hintEn: "Question in Past Simple.",
+                hintAr: "سؤال في الماضي البسيط."
+            },
+            {
+                question: "......... you ever met a famous person?",
+                translation: "هل ... سبق وقابلت شخصاً مشهوراً؟",
+                options: ["Has", "Did", "Have", "Are"],
+                correct: 2, // 33: C) Have
+                hintEn: "Present Perfect (Have you ever).",
+                hintAr: "هل سبق لك."
+            },
+            {
+                question: "She didn't ......... the bus yesterday.",
+                translation: "هي لم ... الحافلة أمس.",
+                options: ["ring", "call", "catch", "talk"],
+                correct: 2, // 34: C) catch
+                hintEn: "Catch the bus.",
+                hintAr: "تلحق بالحافلة."
+            },
+            {
+                question: "The kids ......... now.",
+                translation: "الأطفال ... الآن.",
+                options: ["don't study", "aren't studying", "doesn't study"],
+                correct: 1, // 35: b) aren't studying
+                hintEn: "Now -> Present Continuous.",
+                hintAr: "الآن -> مضارع مستمر."
+            },
+            {
+                question: "We ......... to Egypt this year.",
+                translation: "نحن ... إلى مصر هذا العام.",
+                options: ["are going", "go", "don't go"],
+                correct: 0, // 36: a) are going
+                hintEn: "Future plan.",
+                hintAr: "خطة مستقبلية."
+            },
+            {
+                question: "I ......... To the mall yesterday.",
+                translation: "أنا ... إلى المول أمس.",
+                options: ["went", "go", "am going"],
+                correct: 0, // 37: a) went
+                hintEn: "Past of go.",
+                hintAr: "الماضي من go."
+            },
+            {
+                question: "Listen! The phone ......... in the other room.",
+                translation: "استمع! الهاتف ... في الغرفة الأخرى.",
+                options: ["is ringing", "rings", "ring"],
+                correct: 0, // 38: a) is ringing
+                hintEn: "Happening now.",
+                hintAr: "يحدث الآن."
+            },
+            {
+                question: "My wife ......... coffee every morning.",
+                translation: "زوجتي ... قهوة كل صباح.",
+                options: ["drink", "is drinking", "drinks"],
+                correct: 2, // 39: c) drinks
+                hintEn: "Routine habit.",
+                hintAr: "عادة."
+            },
+            {
+                question: "They ......... know how to make the cake.",
+                translation: "هم ... يعرفون كيفية صنع الكعكة.",
+                options: ["don't", "doesn't", "are"],
+                correct: 0, // 40: a) don't
+                hintEn: "Negative Present Simple.",
+                hintAr: "نفي المضارع البسيط."
+            },
+            {
+                question: "I ......... in school yesterday.",
+                translation: "أنا ... في المدرسة أمس.",
+                options: ["were", "was", "did"],
+                correct: 1, // 41: b) was
+                hintEn: "Verb to be past.",
+                hintAr: "فعل يكون في الماضي."
+            },
+            {
+                question: "I ......... From Egypt.",
+                translation: "أنا ... من مصر.",
+                options: ["am", "is", "are"],
+                correct: 0, // 42: a) am
+                hintEn: "I am.",
+                hintAr: "أنا أكون."
+            },
+            {
+                question: "Sarah ......... Work last week.",
+                translation: "سارة ... تعمل الأسبوع الماضي.",
+                options: ["did", "didn't", "is"],
+                correct: 1, // 43: b) didn't
+                hintEn: "Negative past.",
+                hintAr: "نفي الماضي."
+            },
+            {
+                question: "He ......... Speaking English.",
+                translation: "هو ... يتحدث الإنجليزية.",
+                options: ["is", "are", "am"],
+                correct: 0, // 44: a) is
+                hintEn: "He is.",
+                hintAr: "هو يكون."
+            },
+            {
+                question: "You need to follow ......... when you cook for yourself.",
+                translation: "تحتاج لاتباع ... عندما تطبخ لنفسك.",
+                options: ["diets", "celebrities", "recipes", "restaurants"],
+                correct: 2, // 45: (C) recipes
+                hintEn: "Cooking instructions.",
+                hintAr: "وصفات طعام."
+            },
+            {
+                question: "......... food looks or smells extremely nice.",
+                translation: "طعام ... يبدو أو رائحته زكية للغاية.",
+                options: ["Appearance", "Mouth-watering", "Awful", "Disgusting"],
+                correct: 1, // 46: (B) Mouth-watering
+                hintEn: "Delicious.",
+                hintAr: "شهي."
+            },
+            {
+                question: "Being able to think of new and interesting ideas means you are",
+                translation: "القدرة على التفكير في أفكار جديدة ومثيرة تعني أنك ...",
+                options: ["tired", "intelligent", "imaginative"],
+                correct: 2, // 47: C. imaginative
+                hintEn: "Creative.",
+                hintAr: "مبدع/خيالي."
+            },
+            {
+                question: "My friend ......... a Spanish class this year.",
+                translation: "صديقي ... درس إسبانية هذا العام.",
+                options: ["takes", "take", "is taking"],
+                correct: 2, // 48: C. is taking
+                hintEn: "Temporary action.",
+                hintAr: "حدث مؤقت."
+            },
+            {
+                question: "It's the ......... boring movie I have ever seen.",
+                translation: "إنه ... فيلم ممل رأيته في حياتي.",
+                options: ["more", "much", "most"],
+                correct: 2, // 49: c) most
+                hintEn: "Superlative (The most).",
+                hintAr: "تفضيل."
+            },
+            {
+                question: "Someone is knocking on the door; ......... open it.",
+                translation: "شخص يطرق الباب؛ ... أفتحه.",
+                options: ["I'll", "I", "will", "will I"],
+                correct: 0, // 50: a) I'll
+                hintEn: "Quick decision (I will).",
+                hintAr: "قرار سريع."
+            },
+            {
+                question: "Reem and I often ......... out on weekends.",
+                translation: "ريم وأنا غالباً ... للخارج في العطلات.",
+                options: ["go", "goes", "going"],
+                correct: 0, // 51: A. go
+                hintEn: "Plural subject.",
+                hintAr: "فاعل جمع."
+            },
+            {
+                question: "The train ......... At 7:30 on Mondays.",
+                translation: "القطار ... الساعة 7:30 أيام الاثنين.",
+                options: ["leaves", "is leaving", "leave"],
+                correct: 0, // 52: A. leaves
+                hintEn: "Schedule/Timetable.",
+                hintAr: "جدول مواعيد."
+            },
+            {
+                question: "You ......... to me now.",
+                translation: "أنت ... لي الآن.",
+                options: ["are not listening", "don't listen", "doesn't listen", "has not listened"],
+                correct: 0, // 53: a) are not listening
+                hintEn: "Now -> Present Continuous.",
+                hintAr: "الآن -> مضارع مستمر."
+            },
+            {
+                question: "He makes a lot of plans and lists. He is",
+                translation: "يضع الكثير من الخطط والقوائم. هو ...",
+                options: ["relaxed", "hard-working", "open", "organized"],
+                correct: 3, // 54: (D) organized
+                hintEn: "Someone who plans well.",
+                hintAr: "منظم."
+            },
+            {
+                question: "I listen ......... music in my free time.",
+                translation: "أستمع ... الموسيقى في وقت فراغي.",
+                options: ["to", "for", "into", "of"],
+                correct: 0, // 55: (A) to
+                hintEn: "Listen to.",
+                hintAr: "يستمع إلى."
+            },
+            {
+                question: "He is from the United States. He is",
+                translation: "هو من الولايات المتحدة. هو ...",
+                options: ["Canadian", "British", "American", "Egyptian"],
+                correct: 2, // 56: (C) American
+                hintEn: "Nationality of USA.",
+                hintAr: "أمريكي."
+            },
+            {
+                question: "-What ......... do this afternoon?",
+                translation: "ماذا ... أن تفعل بعد ظهر اليوم؟",
+                options: ["is he going to", "he is going to", "he is doing", "Does he do"],
+                correct: 0, // 57: (A) is he going to
+                hintEn: "Is he going to.",
+                hintAr: "سيفعل."
+            },
+            {
+                question: "The room is dirty. I'm ......... it later.",
+                translation: "الغرفة قذرة. أنا ... تنظيفها لاحقاً.",
+                options: ["going to clean", "cleaning", "going to cleaning", "will clean"],
+                correct: 0, // 58: (A) going to clean
+                hintEn: "Intention.",
+                hintAr: "نية."
+            },
+            {
+                question: "I am good at English, but my friend is ......... than I.",
+                translation: "أنا جيد في الإنجليزية، لكن صديقي ... مني.",
+                options: ["good", "better", "best", "gooder"],
+                correct: 1, // 59: b. better
+                hintEn: "Comparative of good.",
+                hintAr: "أفضل."
+            },
+            {
+                question: "I really like tennis. It's the ......... sport.",
+                translation: "أحب التنس حقاً. إنها ... رياضة.",
+                options: ["good", "better", "best", "worse"],
+                correct: 2, // 60: c. best
+                hintEn: "Superlative of good.",
+                hintAr: "الأفضل."
+            },
+            {
+                question: "My sister is younger ......... me.",
+                translation: "أختي أصغر ... مني.",
+                options: ["then", "that", "than", "this"],
+                correct: 2, // 61: c) than
+                hintEn: "Comparison word.",
+                hintAr: "من."
+            },
+            {
+                question: "I haven't been to the cinema .........",
+                translation: "لم أذهب للسينما ...",
+                options: ["since years", "since June", "for 2019", "since long time"],
+                correct: 1, // 62: (B) since June
+                hintEn: "Since + point in time.",
+                hintAr: "منذ وقت محدد."
+            },
+            {
+                question: "My brother ......... a horse an hour ago.",
+                translation: "أخي ... حصاناً منذ ساعة.",
+                options: ["sees", "seen", "saw", "has seen"],
+                correct: 2, // 63: (C) saw
+                hintEn: "Ago -> Past Simple.",
+                hintAr: "منذ -> ماضي بسيط."
+            },
+            {
+                question: "Can we talk now? Yes, we .........",
+                translation: "هل يمكننا التحدث الآن؟ نعم، نحن ...",
+                options: ["do", "can", "are"],
+                correct: 1, // 64: (B) can
+                hintEn: "Short answer uses the same modal.",
+                hintAr: "الإجابة بنفس الفعل الناقص."
+            },
+            {
+                question: "She is ......... beautiful girl in the city.",
+                translation: "هي ... فتاة جميلة في المدينة.",
+                options: ["more", "the more", "most", "the most"],
+                correct: 3, // 65: d) the most
+                hintEn: "Superlative.",
+                hintAr: "تفضيل."
+            },
+            {
+                question: "This device is ......... than the one that I bought last week.",
+                translation: "هذا الجهاز ... من الذي اشتريته الأسبوع الماضي.",
+                options: ["cheaper", "cheapest", "more cheap", "most cheap"],
+                correct: 0, // 66: a-cheaper
+                hintEn: "Comparative short adjective.",
+                hintAr: "مقارنة صفة قصيرة."
+            },
+            {
+                question: "He ......... married last month.",
+                translation: "هو ... تزوج الشهر الماضي.",
+                options: ["get", "gets", "got", "has got"],
+                correct: 2, // 67: c) got
+                hintEn: "Past Simple.",
+                hintAr: "ماضي بسيط."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(quizData.length).fill(null); 
+
+        const container = document.getElementById('quiz-container');
+        const scoreContainer = document.getElementById('score-container');
+        const progressBar = document.getElementById('progress-bar');
+
+        function updateProgress() {
+            if (quizData.length === 0) return;
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            const progress = (answeredCount / quizData.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function loadQuestion(index) {
+            if (quizData.length === 0) {
+                container.innerHTML = `
+                    <div class="quiz-card" style="text-align:center; padding: 4rem 2rem;">
+                        <h2 style="color: #fff;">No Questions Added</h2>
+                    </div>
+                `;
+                return;
+            }
+
+            updateProgress();
+            
+            if (index >= quizData.length) {
+                showSummary();
+                return;
+            }
+
+            const item = quizData[index];
+            const savedAnswer = userAnswers[index];
+            const isAnswered = savedAnswer !== null;
+
+            container.innerHTML = ''; 
+
+            const card = document.createElement('div');
+            card.className = 'quiz-card';
+
+            const optionsHtml = item.options.map((opt, optIndex) => {
+                let extraClass = '';
+                let iconHtml = '<span class="icon-placeholder"></span>';
+                
+                if (isAnswered) {
+                    if (optIndex === item.correct) {
+                        extraClass = 'correct';
+                        iconHtml = '<i class="fas fa-check-circle"></i>';
+                    } else if (optIndex === savedAnswer.selectedIndex) {
+                        extraClass = 'wrong';
+                        iconHtml = '<i class="fas fa-times-circle"></i>';
+                    }
+                }
+
+                return `
+                <button class="option-btn ${extraClass}" 
+                        onclick="checkAnswer(${optIndex}, this)"
+                        ${isAnswered ? 'disabled' : ''}>
+                    <span><span style="opacity:0.6; margin-right:8px;">${String.fromCharCode(65 + optIndex)}.</span> ${opt}</span>
+                    ${iconHtml}
+                </button>
+            `}).join('');
+
+            const nextDisplay = isAnswered ? 'flex' : 'none';
+            const skipDisplay = isAnswered ? 'none' : 'flex';
+
+            card.innerHTML = `
+                <div class="question-header">
+                    <span class="question-number">QUESTION ${index + 1} OF ${quizData.length}</span>
+                </div>
+                <div class="question-text">${item.question}</div>
+                <div class="question-translation">${item.translation}</div>
+                
+                <div class="options-grid">
+                    ${optionsHtml}
+                </div>
+
+                <div class="quiz-controls">
+                    <div class="control-group-left">
+                         <button class="nav-btn btn-back" onclick="prevQuestion()" ${index === 0 ? 'disabled' : ''}>
+                            <i class="fas fa-arrow-left"></i> Back / السابق
+                        </button>
+                        <button class="nav-btn btn-hint" onclick="toggleHint('hint-box')">
+                            <i class="far fa-lightbulb"></i> Hint / تلميح
+                        </button>
+                    </div>
+
+                    <div class="control-group-right">
+                        <button id="skip-btn" class="nav-btn btn-skip" style="display: ${skipDisplay};" onclick="skipQuestion()">
+                            Skip / تخطي <i class="fas fa-forward"></i>
+                        </button>
+                        <button id="next-btn" class="nav-btn btn-next" style="display: ${nextDisplay};" onclick="nextQuestion()">
+                            Next / التالي <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="hint-box" class="hint-box">
+                    <div><strong>Hint:</strong> ${item.hintEn}</div>
+                    <div class="hint-text-ar ar"><strong>تلميح:</strong> ${item.hintAr}</div>
+                </div>
+            `;
+
+            container.appendChild(card);
+        }
+
+        function checkAnswer(selectedOptionIndex, btnElement) {
+            const question = quizData[currentQuestionIndex];
+            const isCorrect = selectedOptionIndex === question.correct;
+            
+            userAnswers[currentQuestionIndex] = {
+                selectedIndex: selectedOptionIndex,
+                isCorrect: isCorrect
+            };
+
+            const parent = btnElement.parentElement;
+            const buttons = parent.querySelectorAll('.option-btn');
+            
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (isCorrect) {
+                btnElement.classList.add('correct');
+                btnElement.querySelector('.icon-placeholder').innerHTML = '<i class="fas fa-check-circle"></i>';
+            } else {
+                btnElement.classList.add('wrong');
+                btnElement.querySelector('.icon-placeholder').innerHTML = '<i class="fas fa-times-circle"></i>';
+                
+                const correctBtn = buttons[question.correct];
+                correctBtn.classList.add('correct');
+                correctBtn.querySelector('.icon-placeholder').innerHTML = '<i class="fas fa-check-circle"></i>';
+            }
+
+            document.getElementById('skip-btn').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'flex';
+            
+            updateProgress();
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            loadQuestion(currentQuestionIndex);
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        function skipQuestion() {
+            currentQuestionIndex++;
+            loadQuestion(currentQuestionIndex);
+        }
+
+        function toggleHint(hintId) {
+            const hintBox = document.getElementById(hintId);
+            hintBox.classList.toggle('visible');
+        }
+
+        function showSummary() {
+            container.style.display = 'none';
+            scoreContainer.style.display = 'block';
+            progressBar.style.width = '100%';
+            
+            const correctCount = userAnswers.filter(a => a && a.isCorrect).length;
+            const percentage = Math.round((correctCount / quizData.length) * 100);
+            
+            document.getElementById('final-percentage').textContent = `${percentage}%`;
+            document.getElementById('correct-count').textContent = `You answered ${correctCount} out of ${quizData.length} correctly`;
+            
+            const textEl = document.getElementById('score-text');
+            
+            if (percentage === 100) {
+                textEl.textContent = "Perfect Score!";
+                textEl.style.color = "#38bdf8";
+            } else if (percentage >= 70) {
+                textEl.textContent = "Great Job!";
+                textEl.style.color = "#818cf8";
+            } else if (percentage >= 50) {
+                textEl.textContent = "Good";
+                textEl.style.color = "#ffffff";
+            } else {
+                textEl.textContent = "Keep Practicing";
+                textEl.style.color = "#ff416c";
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(quizData.length).fill(null);
+            scoreContainer.style.display = 'none';
+            container.style.display = 'block';
+            loadQuestion(0);
+        }
+
+        // Initialize
+        loadQuestion(0);
+
+    </script>
+</body>
+</html>
