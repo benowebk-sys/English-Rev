@@ -45,7 +45,7 @@
             font-family: 'Outfit', sans-serif;
             background: var(--bg-gradient);
             color: var(--text-main);
-            line-height: 1.6;
+            line-height: 1.5;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -79,26 +79,25 @@
         }
 
         header {
-            padding: 2.5rem 1rem;
+            padding: 1rem; /* Reduced padding */
             text-align: center;
             z-index: 10;
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 2.2rem;
             margin-bottom: 0;
             color: #fff;
             font-weight: 700;
             letter-spacing: -1px;
             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            display: none; /* Hidden as requested */
         }
 
         main {
             flex: 1;
-            max-width: 850px;
-            margin: 2rem auto;
-            padding: 1rem;
+            max-width: 800px;
+            margin: 0.5rem auto; /* Very small margin from top */
+            padding: 0 1rem;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -111,7 +110,7 @@
             width: 100%;
             background-color: #0f0f0f;
             border-radius: 4px;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             height: 4px;
             overflow: hidden;
         }
@@ -129,8 +128,8 @@
             background: var(--card-bg);
             border: var(--card-border);
             box-shadow: var(--card-glow);
-            border-radius: 16px;
-            padding: 2.5rem;
+            border-radius: 14px;
+            padding: 1.5rem;
             width: 100%;
             animation: fadeIn 0.4s ease;
             position: relative;
@@ -141,56 +140,56 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
             border-bottom: 1px solid rgba(56, 189, 248, 0.3);
         }
 
         .question-number {
-            font-size: 0.85rem;
+            font-size: 0.75rem; /* Smaller font */
             color: var(--accent);
             font-weight: 700;
-            letter-spacing: 1.2px;
+            letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         .question-text {
-            font-size: 1.4rem;
+            font-size: 1.15rem; /* Adjusted for readability */
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             color: #fff;
-            line-height: 1.5;
+            line-height: 1.4;
         }
 
         .question-translation {
             font-family: 'Cairo', sans-serif;
             color: #94a3b8;
-            font-size: 1.15rem;
-            margin-bottom: 2.5rem;
+            font-size: 0.95rem; /* Smaller translation */
+            margin-bottom: 1.5rem;
             direction: rtl;
             text-align: right;
             border-right: 3px solid var(--accent);
-            padding-right: 15px;
+            padding-right: 10px;
             background: rgba(255,255,255,0.03);
-            padding: 1rem;
+            padding: 0.6rem;
             border-radius: 6px;
         }
 
         .options-grid {
             display: grid;
-            gap: 0.8rem;
+            gap: 0.6rem;
         }
 
         .option-btn {
             background-color: #27272a;
             border: 1px solid #3f3f46;
             color: #e2e8f0;
-            padding: 1.1rem 1.4rem;
-            border-radius: 10px;
+            padding: 0.8rem 1rem; /* Compact padding */
+            border-radius: 8px;
             cursor: pointer;
             text-align: left;
             font-family: inherit;
-            font-size: 1.05rem;
+            font-size: 0.9rem; /* Smaller font */
             transition: all 0.2s ease;
             position: relative;
             display: flex;
@@ -201,7 +200,7 @@
         .option-btn:hover:not(:disabled) {
             background-color: #3f3f46;
             border-color: #52525b;
-            transform: translateX(4px);
+            transform: translateX(3px);
         }
 
         .option-btn:disabled {
@@ -223,32 +222,32 @@
 
         /* Controls */
         .quiz-controls {
-            margin-top: 3rem;
+            margin-top: 1.5rem;
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 0.8rem;
             justify-content: space-between;
             align-items: center;
             border-top: 1px solid rgba(56, 189, 248, 0.3);
-            padding-top: 2rem;
+            padding-top: 1.2rem;
         }
 
         .control-group-left {
             display: flex;
-            gap: 0.8rem;
+            gap: 0.5rem;
         }
         
         .control-group-right { margin-left: auto; }
 
         .nav-btn {
-            padding: 0.8rem 1.6rem;
-            border-radius: 8px;
+            padding: 0.6rem 1.2rem; /* Compact buttons */
+            border-radius: 6px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.4rem;
             transition: all 0.2s;
             border: none;
             outline: none;
@@ -284,26 +283,26 @@
             background: transparent;
             color: #fbbf24;
             border: 1px solid #fbbf24;
-            padding: 0.8rem;
+            padding: 0.6rem;
         }
         .btn-hint:hover { background: rgba(251, 191, 36, 0.1); }
 
         /* Hint Box */
         .hint-box {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             background-color: #000;
-            padding: 1.5rem;
+            padding: 1rem;
             border-radius: 8px;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             border: 1px solid #333;
-            border-left: 4px solid #fbbf24;
+            border-left: 3px solid #fbbf24;
             display: none;
             animation: fadeIn 0.3s ease;
             color: #fbbf24;
         }
         .hint-box.visible { display: block; }
-        .hint-box strong { color: #fff; margin-right: 5px; text-transform: uppercase; font-size: 0.8rem; }
-        .hint-text-ar { color: #fbbf24; margin-top: 0.8rem; font-weight: 600; }
+        .hint-box strong { color: #fff; margin-right: 5px; text-transform: uppercase; font-size: 0.7rem; }
+        .hint-text-ar { color: #fbbf24; margin-top: 0.5rem; font-weight: 600; }
 
         /* Score Board */
         .score-board {
@@ -313,38 +312,38 @@
             background: var(--card-bg);
             border: var(--card-border);
             box-shadow: var(--card-glow);
-            border-radius: 16px;
-            padding: 3rem 2rem;
+            border-radius: 12px;
+            padding: 2rem 1rem;
             animation: slideUp 0.4s ease;
         }
 
         .score-circle {
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             border: 4px solid var(--accent);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 2rem auto;
-            font-size: 2.5rem;
+            margin: 1.5rem auto;
+            font-size: 2rem;
             font-weight: 700;
             color: #fff;
             background: rgba(0,0,0,0.3);
             position: relative;
             box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
         }
-        .score-percentage { position: absolute; font-size: 1rem; bottom: 30px; color: #71717a; }
+        .score-percentage { position: absolute; font-size: 0.85rem; bottom: 25px; color: #71717a; }
 
         .restart-btn {
             background: transparent;
             border: 1px solid #fff;
             color: #fff;
-            padding: 0.9rem 2.5rem;
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: 0.8rem 2rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
             cursor: pointer;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             transition: all 0.2s;
             font-weight: 500;
         }
@@ -355,7 +354,7 @@
 
         /* Footer */
         .footer {
-            padding: 2rem 1rem; /* Slightly reduced padding */
+            padding: 1.5rem 1rem;
             text-align: center;
             margin-top: auto;
             position: relative;
@@ -365,24 +364,24 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 8px;
             background: rgba(0,0,0,0.4);
             color: #fff;
-            padding: 0.8rem 2rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
             border: 1px solid var(--accent);
             font-family: var(--code-font);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
-            letter-spacing: 0.5px;
-            white-space: nowrap; /* Prevent wrapping inside badge */
+            letter-spacing: 0.3px;
+            white-space: nowrap;
         }
         
         .creator-badge:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
             background: rgba(56, 189, 248, 0.1);
             border-color: #fff;
         }
@@ -390,7 +389,7 @@
         .code-symbol {
             color: var(--accent);
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .code-name {
@@ -402,28 +401,23 @@
 
         /* Mobile Optimization */
         @media (max-width: 600px) {
-            .quiz-card { padding: 1.5rem; }
-            .question-text { font-size: 1.1rem; }
-            .quiz-controls { flex-direction: column; gap: 1rem; align-items: stretch; }
+            header { padding: 0.5rem; }
+            .quiz-card { padding: 1.2rem; margin-top: 0.5rem; }
+            .question-text { font-size: 1rem; line-height: 1.4; margin-bottom: 0.5rem; }
+            .question-translation { font-size: 0.85rem; padding: 0.5rem; margin-bottom: 1rem; }
+            .option-btn { padding: 0.7rem 0.9rem; font-size: 0.85rem; }
+            .quiz-controls { flex-direction: column; gap: 0.8rem; align-items: stretch; margin-top: 1.2rem; }
             .control-group-left, .control-group-right { width: 100%; justify-content: space-between; margin: 0; }
-            .nav-btn { flex: 1; justify-content: center; }
-            .btn-hint { width: 100%; justify-content: center; }
-            
-            /* Creator Badge Mobile Fix */
-            .creator-badge { 
-                font-size: 0.75rem; /* Smaller font on mobile */
-                padding: 0.6rem 1rem; /* Adjust padding */
-                width: auto; /* Allow auto width */
-                max-width: 100%; /* Ensure it doesn't overflow */
-                white-space: normal; /* Allow wrapping if absolutely necessary on very small screens, though font size reduction should prevent it */
-            }
+            .nav-btn { flex: 1; justify-content: center; padding: 0.7rem; } 
+            .btn-hint { width: 100%; justify-content: center; margin-top: 0; }
+            .creator-badge { font-size: 0.7rem; padding: 0.5rem 0.8rem; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>English Quiz</h1>
+        <h1>English Review</h1>
     </header>
 
     <main>
@@ -442,8 +436,8 @@
                 <span id="final-percentage">0%</span>
             </div>
             
-            <p id="score-text" style="font-size: 1.4rem; margin-bottom: 0.5rem; font-weight: 600; color: #fff;"></p>
-            <p id="correct-count" class="ar" style="font-size: 1.1rem; color: var(--text-secondary);"></p>
+            <p id="score-text" style="font-size: 1.2rem; margin-bottom: 0.5rem; font-weight: 600; color: #fff;"></p>
+            <p id="correct-count" class="ar" style="font-size: 1rem; color: var(--text-secondary);"></p>
             
             <button class="restart-btn" onclick="restartQuiz()">
                 <i class="fas fa-redo"></i> Restart Review / إعادة
